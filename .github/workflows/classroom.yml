@@ -1,0 +1,124 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Sub_TwoNumbers_1
+      id: sub_twonumbers_1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sub_TwoNumbers_1
+        setup-command: "./setup.sh"
+        command: "./check.sh"
+        input: 5 - 3
+        expected-output: '2'
+        comparison-method: exact
+        timeout: 2
+        max-score: 1
+    - name: Sub_TwoNumbers_2
+      id: sub_twonumbers_2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sub_TwoNumbers_2
+        setup-command: "./setup.sh"
+        command: "./check.sh"
+        input: 5 - 5
+        expected-output: '0'
+        comparison-method: contains
+        timeout: 2
+        max-score: 1
+    - name: Sub_TwoNumbers_3
+      id: sub_twonumbers_3
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sub_TwoNumbers_3
+        setup-command: "./setup.sh"
+        command: "./check.sh"
+        input: 3 - 5
+        expected-output: "-2"
+        comparison-method: contains
+        timeout: 2
+        max-score: 1
+    - name: Sub_TwoNumbers_4
+      id: sub_twonumbers_4
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sub_TwoNumbers_4
+        setup-command: "./setup.sh"
+        command: "./check.sh"
+        input: "-3 - (-5)"
+        expected-output: '2'
+        comparison-method: contains
+        timeout: 2
+        max-score: 1
+    - name: Sub_TwoNumbers_5
+      id: sub_twonumbers_5
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sub_TwoNumbers_5
+        setup-command: "./setup.sh"
+        command: "./check.sh"
+        input: "-3 - (-3)"
+        expected-output: '0'
+        comparison-method: contains
+        timeout: 2
+        max-score: 1
+    - name: Sub_TwoNumbers_6
+      id: sub_twonumbers_6
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sub_TwoNumbers_6
+        setup-command: "./setup.sh"
+        command: "./check.sh"
+        input: "-5 - (-3)"
+        expected-output: "-2"
+        comparison-method: contains
+        timeout: 2
+        max-score: 1
+    - name: Sub_TwoNumbers_7
+      id: sub_twonumbers_7
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sub_TwoNumbers_7
+        setup-command: "./setup.sh"
+        command: "./check.sh"
+        input: 5 - (-3)
+        expected-output: '8'
+        comparison-method: contains
+        timeout: 2
+        max-score: 1
+    - name: Sub_TwoNumbers_8
+      id: sub_twonumbers_8
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sub_TwoNumbers_8
+        setup-command: "./setup.sh"
+        command: "./check.sh"
+        input: "-5 - 3"
+        expected-output: "-8"
+        comparison-method: contains
+        timeout: 2
+        max-score: 1
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        SUB_TWONUMBERS_1_RESULTS: "${{steps.sub_twonumbers_1.outputs.result}}"
+        SUB_TWONUMBERS_2_RESULTS: "${{steps.sub_twonumbers_2.outputs.result}}"
+        SUB_TWONUMBERS_3_RESULTS: "${{steps.sub_twonumbers_3.outputs.result}}"
+        SUB_TWONUMBERS_4_RESULTS: "${{steps.sub_twonumbers_4.outputs.result}}"
+        SUB_TWONUMBERS_5_RESULTS: "${{steps.sub_twonumbers_5.outputs.result}}"
+        SUB_TWONUMBERS_6_RESULTS: "${{steps.sub_twonumbers_6.outputs.result}}"
+        SUB_TWONUMBERS_7_RESULTS: "${{steps.sub_twonumbers_7.outputs.result}}"
+        SUB_TWONUMBERS_8_RESULTS: "${{steps.sub_twonumbers_8.outputs.result}}"
+      with:
+        runners: sub_twonumbers_1,sub_twonumbers_2,sub_twonumbers_3,sub_twonumbers_4,sub_twonumbers_5,sub_twonumbers_6,sub_twonumbers_7,sub_twonumbers_8
